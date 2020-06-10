@@ -13,7 +13,7 @@ module.exports = {
                 type : 'Point',
                 coordinates: [longitude, latitude]
             }
-           var problem = await Problem.create({email,nomeProblema, descricaoProblema: Descricao,sugestao, urlFoto, areaProblema, posicao}       )
+           var problem = await Problem.create({email,nomeProblema, descricaoProblema: Descricao,sugestao, urlFoto, areaProblema, posicao, status: 'Avaliando'}       )
         return response.json(problem);
     },
 

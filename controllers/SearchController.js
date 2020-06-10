@@ -70,7 +70,6 @@ module.exports ={
         var problem = {};
         const { latitude, longitude, kmBusca, nomeProblema, areaProblema} = request.query;
 
-         
        if(areaProblema === '' && nomeProblema === ''){
         problem = await Problem.find({
             posicao: {

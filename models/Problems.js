@@ -9,6 +9,7 @@ const Problem = new mongoose.Schema({
     areaProblema: String,
     descricaoProblema:  String,
     sugestao:  String,
+    status: String,
     urlFoto: [String],
     posicao: {
         type:PointSchema,

@@ -24,11 +24,16 @@ routes.post('/pictureToServer',[multer(multerConfig).single('file')], async (req
         url: `C:\\Users\\Lucas\\Downloads\\tcc\\tcc\\backendtcc\\backend\\images\\${key}`
     });
     return res.json(post)
-})
-routes.post('/AlteraDadosUsuario', SessionController.index)
+});
+routes.get('/searchFilterBetweenDates', SearchController.filterBetweenDates);
+routes.get('/searchFilterProvider', SearchController.filter);
+routes.post('/changeProblemStatus', ProblemController.updateStatusProblem);
+routes.post('/AlteraDadosUsuario', SessionController.index);
+routes.post('/AtribuirProblema', ProblemController.update);
 routes.get('/search', SearchController.index);
 routes.get('/SearchFormBuscas', SearchController.index2);
 routes.get('/searchAllProblems', SearchController.index1);
+routes.get('/searchProblemsFromProvider', SearchController.buscaProblemasPrestador);
 routes.get('/searchProblemsByUser', SearchController.buscaProblemasUsuario);
 routes.get('/searchProblemByID', SearchController.buscaProblemaID);
 routes.get('/searchUserByID', SearchController.buscaUserID);

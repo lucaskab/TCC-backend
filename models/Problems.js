@@ -3,6 +3,7 @@ const PointSchema = require('./utils/PointSchema');
 
 
 
+
 const Problem = new mongoose.Schema({
     email:  String,
     nomeProblema: String,
@@ -10,6 +11,7 @@ const Problem = new mongoose.Schema({
     descricaoProblema:  String,
     sugestao:  String,
     status: String,
+    idPrestador: String,
     urlFoto: [String],
     posicao: {
         type:PointSchema,

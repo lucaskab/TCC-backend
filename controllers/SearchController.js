@@ -14,7 +14,6 @@ module.exports ={
     },
     async buscaProblemaID(request,response){
         const {_id} = request.query;
-        console.log(_id)
 
         const problema = await Problem.findOne({
             _id,
@@ -34,8 +33,81 @@ module.exports ={
         const user = await Dev.findOne({
             _id,
         })  
-        console.log(user);
         return response.json(user);
+    },
+    async filter(request,response){
+        var {areaProblema, nomeProblema,dataInicio, dataFinal, status} = request.query;
+        var arrayData = [{areaProblema}, {nomeProblema}, {dataInicio}, {dataFinal}, {status}];
+
+        function filter(obj) {
+            if ('status' in obj && obj.status != '') {
+              return true;
+            } 
+
+            if ('areaProblema' in obj && obj.areaProblema != '' ) {
+                return true;
+              } 
+              if ('nomeProblema' in obj && obj.nomeProblema != '' ) {
+                return true;
+              }
+              if ('dataInicio' in obj && obj.dataInicio != '') {
+                return true;
+              }  
+              if ('dataFinal' in obj && obj.dataFinal != '') {
+                return true;
+              }   
+            
+            else {
+              return false;
+            }
+          }
+
+          var arrFiltered = arrayData.filter(filter);
+          var data;
+          for(i=0; i< arrFiltered.length; i++){
+              if('status' in arrFiltered[i]){
+                status = arrFiltered[i].status;
+                data = {...data, status }
+              }
+              if('areaProblema' in arrFiltered[i]){
+                areaProblema = arrFiltered[i].areaProblema;
+                data = {...data, areaProblema }
+              }
+              if('dataInicio' in arrFiltered[i]){
+                dataInicio = arrFiltered[i].dataInicio;
+                data = {...data, dataInicio }
+              }
+              if('dataFinal' in arrFiltered[i]){
+                dataFinal = arrFiltered[i].dataFinal;
+                data = {...data, dataFinal }
+              }
+              if('nomeProblema' in arrFiltered[i]){
+                nomeProblema = arrFiltered[i].nomeProblema;
+                data = {...data, nomeProblema }
+              }
+              
+          }
+       const retorno = await Problem.find(data)
+        return response.json(retorno);
+    },
+
+    async filterBetweenDates(request,response){
+        const {dataInicio, dataFinal, nomeProblema} = request.query;
+        console.log(dataInicio, dataFinal);
+
+        const problems = await Problem.find({"CreatedAt":{ $gte:dataInicio, $lt:dataFinal }}).countDocuments();
+        console.log(problems);
+
+        return response.json(problems);
+    },
+
+    async buscaProblemasPrestador(request,response){
+        const {idPrestador} = request.query;
+
+        const problems = await Problem.find({
+            idPrestador,
+        })  
+        return response.json(problems);
     },
 
     async index1(request,response){
@@ -62,7 +134,6 @@ module.exports ={
             },
            
         });
-        console.log(problem);
         return response.json({problem});
     },
 

@@ -1,15 +1,19 @@
-const axios = require('axios');
 const User = require('../models/Dev');
-const parseStringAsArray = require('../utils/parseStringAsArray');
 
-//index, show, store, update, destroy
 
 module.exports = {
     async index(request,response){
         const  {email} = request.body;
-    
-        const usuario = await User.findOne({email});  
+        const usuario = await User.findOne({email});
         return response.json(usuario);
+
+    },
+
+    async update(request,response){
+        const  {idProblema, idUser} = request.body;
+        await UserProblem.findOne({email});
+        return response.json(usuario);
+
     },
 
     async store(request,response) {

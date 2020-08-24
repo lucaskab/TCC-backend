@@ -18,11 +18,11 @@ module.exports = {
 
     async store(request,response) {
         const { nome, dataNascimento, endereco, numero, cidade, cep, uf, telefone, celular,
-            rg, email, senha } = request.body;
+            rg, email, senha, prestador } = request.body;
         
             user = await User.create({
                 nome, dataNascimento, endereco, numero, cidade, cep, uf, telefone, celular,
-                rg, email, senha 
+                rg, email, senha, prestador 
             })
         return response.json(user);
     }

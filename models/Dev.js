@@ -65,7 +65,11 @@ const UserRegister = new mongoose.Schema({
     CreatedAt: { 
         type: Date, 
         default: Date.now, 
-    },       
+    },
+    prestador: {
+        type: String, 
+        require: false,
+    }       
 });
 
 module.exports = mongoose.model('users', UserRegister);

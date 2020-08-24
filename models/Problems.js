@@ -1,9 +1,6 @@
 const mongoose = require('mongoose');
 const PointSchema = require('./utils/PointSchema');
 
-
-
-
 const Problem = new mongoose.Schema({
     email:  String,
     nomeProblema: String,

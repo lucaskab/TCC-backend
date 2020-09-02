@@ -14,7 +14,7 @@ module.exports = {
             crypto.randomBytes(16, (err, hash) => {
                  if(err) callback(err);
 
-                 const fileName = `${hash.toString('hex')}-${file.originalname}`;
+                 const fileName = `${file.originalname}`;
 
                  callback(null, fileName);
             });

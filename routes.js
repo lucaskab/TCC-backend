@@ -37,5 +37,6 @@ routes.get('/searchProblemsFromProvider', SearchController.buscaProblemasPrestad
 routes.get('/searchProblemsByUser', SearchController.buscaProblemasUsuario);
 routes.get('/searchProblemByID', SearchController.buscaProblemaID);
 routes.get('/searchUserByID', SearchController.buscaUserID);
+routes.get('/searchQTDProblemsByUser1', SearchController.buscaQTDProblemasUser);
 routes.get('/searchQTDProblemsByUser', SearchController.buscaQTDProblemasUsuario);
 module.exports = routes;

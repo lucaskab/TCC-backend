@@ -12,6 +12,7 @@ mongoose.connect('mongodb+srv://lucaskab:djokovic@cluster-hkje6.gcp.mongodb.net/
 });
 app.use(cors());
 app.use(express.json());
+app.use('/files', express.static(__dirname + '/images'));
 app.use(routes);
 
 app.listen(process.env.PORT || 3333);

@@ -21,6 +21,13 @@ module.exports ={
         return response.json(problema);
     },
     async buscaQTDProblemasUsuario(request,response){
+        const {idPrestador} = request.query;
+        const qtd = await Problem.find({
+            idPrestador
+        }).countDocuments({});  
+        return response.json(qtd);
+    },
+    async buscaQTDProblemasUser(request,response){
         const {email} = request.query;
         const qtd = await Problem.find({
             email

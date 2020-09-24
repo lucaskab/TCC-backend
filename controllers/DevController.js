@@ -3,8 +3,8 @@ const User = require('../models/Dev');
 
 module.exports = {
     async index(request,response){
-        const  {email} = request.body;
-        const usuario = await User.findOne({email});
+        const  {email,senha} = request.body;
+        const usuario = await User.findOne({email,senha});
         return response.json(usuario);
 
     },

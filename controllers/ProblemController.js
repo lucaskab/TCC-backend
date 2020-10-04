@@ -45,4 +45,12 @@ module.exports = {
         return response.json(deletado);
     },
 
+    async changeIdPrestador(request,response){
+        var {id} = request.body;
+        console.log(id);
+        const att = await Problem.findOneAndUpdate(id,{idPrestador: ''});  
+        console.log(att);
+        return response.json(att);
+    }
+
 }

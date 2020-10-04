@@ -28,6 +28,7 @@ routes.post('/pictureToServer',[multer(multerConfig).single('file')], async (req
 routes.get('/searchFilterBetweenDates', SearchController.filterBetweenDates);
 routes.get('/searchFilterProvider', SearchController.filter);
 routes.post('/changeProblemStatus', ProblemController.updateStatusProblem);
+routes.post('/changeIdPrestador', ProblemController.changeIdPrestador);
 routes.post('/AlteraDadosUsuario', SessionController.index);
 routes.post('/AtribuirProblema', ProblemController.update);
 routes.get('/search', SearchController.index);

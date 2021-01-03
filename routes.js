@@ -3,12 +3,16 @@ const DevController = require('./controllers/DevController');
 const SearchController = require('./controllers/SearchController');
 const ProblemController = require('./controllers/ProblemController');
 const SessionController = require('./controllers/SessionController');
+const AdminController = require('./controllers/AdminController');
+const AreaController = require('./controllers/AreaController');
+const TypeController = require('./controllers/TypeController');
 const multer = require('multer')
 const multerConfig = require('./config/multer')
 const routes = Router();
 
 
 const FotoSchema = require('./models/utils/Foto');
+const Area = require('./models/Area');
 
 
 routes.post('/userscadastrados', DevController.index);
@@ -40,4 +44,22 @@ routes.get('/searchProblemByID', SearchController.buscaProblemaID);
 routes.get('/searchUserByID', SearchController.buscaUserID);
 routes.get('/searchQTDProblemsByUser1', SearchController.buscaQTDProblemasUser);
 routes.get('/searchQTDProblemsByUser', SearchController.buscaQTDProblemasUsuario);
+
+
+//Admin Routes
+routes.post('/admin', AdminController.store);
+routes.post('/sessions', AdminController.index);
+
+//Area Routes
+routes.post('/addArea', AreaController.store);
+routes.post('/attArea', AreaController.update);
+routes.post('/deleteArea', AreaController.delete);
+routes.post('/findAllAreas', AreaController.findAll);
+
+//Type Routes
+routes.post('/addType', TypeController.store);
+routes.post('/attType', TypeController.update);
+routes.post('/deleteType', TypeController.delete);
+routes.post('/findAllTypes', TypeController.findAll);
+
 module.exports = routes;

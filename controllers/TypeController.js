@@ -23,7 +23,6 @@ module.exports = {
 
     async findAll(request, response) {
       const {area} = request.body;
-      console.log(area);
       const types = await Type.find({area});
       return response.json(types);
     },

@@ -21,8 +21,7 @@ module.exports = {
     },
 
     async findAll(request, response) {
-      const areas = await Area.find({});
-      console.log(areas);
+      const areas = await Area.find({}).sort({name: 1});
       return response.json(areas);
     },
 

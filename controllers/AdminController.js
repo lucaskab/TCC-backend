@@ -62,5 +62,97 @@ module.exports = {
         return response.json(problems);
     },
 
+    async searchFilterChart(request,response) {
+        const {area, type, initialData, finalData, status} = request.body;
+        const today = new Date();
+        const todayString = today.toISOString();
+        const todayYear = todayString.substring(0,4);
+        const todayMonth = todayString.substring(5,7);
+        const todayDay = todayString.substring(8,10);
+
+        const data = {
+            nomeProblema: type,
+            areaProblema: area,
+            initialData,
+            finalData,
+            status,
+        }
+
+        for(var key in data) {
+            if(data[key] === "") {
+               delete data[key]
+            }
+        }
+
+        if(initialData && finalData) {
+            
+            if(finalData === todayYear) {
+                data.CreatedAt = {
+                $gte: `${initialData}-01-01T00:00:00.000Z`,
+                $lt: `${todayYear}-${todayMonth}-${todayDay}T23:59:59.999Z`
+                }
+            } else {
+                data.CreatedAt = {
+                    $gte: `${initialData}-01-01T00:00:00.000Z`,
+                    $lt: `${finalData}-12-31T23:59:59.999Z`
+                }
+            }
+            
+            delete data.initialData;
+            delete data.finalData;
+
+        } else if(initialData) {
+            if(initialData === todayYear) {
+                data.CreatedAt = {
+                $gte: `${initialData}-01-01T00:00:00.000Z`,
+                $lt: `${todayYear}-${todayMonth}-${todayDay}T23:59:59.999Z`
+                }
+            } else {
+                data.CreatedAt = {
+                    $gte: `${initialData}-01-01T00:00:00.000Z`,
+                    $lt: `${initialData}-12-31T23:59:59.999Z`
+                }
+            } 
+
+            delete data.initialData;
+        }
+            problems = await Problems.find(data).sort({areaProblema: 1});
+        return response.json(problems);
+    },
+
+    async searchPieChartArea(request,response) {
+        const problemas = await Problems.find({}).sort({areaProblema: 1}); 
+
+        var areaArray = [];
+        var finalArray = [];
+        var qtdArray = [];
+        var area = areaArray[0];;
+        var qtdArea = 0;
+
+        problemas.map(problem => {
+            areaArray.push(problem.areaProblema);
+        });
+
+        for(var i=0; i<areaArray.length; i++) {
+            if(area !== areaArray[i]){
+                var randomColor = '#' + Math.random().toString(16).slice(2, 8).toUpperCase();
+                    finalArray.push({
+                        name: area, 
+                        qtd: qtdArea,
+                        color: randomColor,
+                        legendFontColor: 'black',
+                        legendFontSize: 15
+                    });
+                    qtdArray.push(qtdArea); 
+                    area = areaArray[i];
+                    qtdArea = 0;
+            }
+            qtdArea += 1;
+        }
+        finalArray.shift();
+        return response.json(finalArray);
+    },
+
+
 
 }

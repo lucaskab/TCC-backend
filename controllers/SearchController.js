@@ -100,10 +100,8 @@ module.exports ={
 
     async filterBetweenDates(request,response){
         const {dataInicio, dataFinal, nomeProblema} = request.query;
-        console.log(dataInicio, dataFinal);
 
         const problems = await Problem.find({"CreatedAt":{ $gte:dataInicio, $lt:dataFinal }}).countDocuments();
-        console.log(problems);
 
         return response.json(problems);
     },
@@ -118,7 +116,7 @@ module.exports ={
     },
 
     async index1(request,response){
-        const problema = await Problem.find({});  
+        const problema = await Problem.find({}).sort({areaProblema: 1});  
         return response.json(problema);
     },
 

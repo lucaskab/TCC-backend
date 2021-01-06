@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const Admin = require('../models/Admin');
 const Problems = require('../models/Problems');
 
@@ -11,9 +12,26 @@ module.exports = {
     },
 
     async update(request,response){
-        const  {idProblema, idUser} = request.body;
-        await UserProblem.findOne({email});
-        return response.json(usuario);
+        var {id, address, birthdate, cellphone, city, email, name, uf, password} = request.body;
+        const data = {
+            name,
+            address, 
+            birthdate, 
+            cellphone, 
+            city, 
+            email,
+            password,  
+            uf, 
+        }
+
+        for(var key in data) {
+            if(data[key] === "") {
+               delete data[key]
+            }
+        }
+        const user = await Admin.findOneAndUpdate({_id: id}, data, {new: true});
+
+        return response.json(user);
 
     },
 
@@ -26,12 +44,19 @@ module.exports = {
         return response.json(admin);
     },
 
+    async searchUF(request,response){
+        const uf = await Problems.find({});
+        return response.json(uf);
+    },
+
     async search(request,response) {
-        const {area, type, initialData, endData, status} = request.body;
+        const {area, type, initialData, endData, status, uf, city} = request.body;
 
         const data = {
             nomeProblema: type,
             areaProblema: area,
+            city,
+            uf,
             initialData,
             endData,
             status,
@@ -58,12 +83,12 @@ module.exports = {
                 delete data.initialData;
                 delete data.endData;
             }
-            problems = await Problems.find(data);
+            problems = await Problems.find(data).sort({areaProblema: 1});
         return response.json(problems);
     },
 
     async searchFilterChart(request,response) {
-        const {area, type, initialData, finalData, status} = request.body;
+        const {area, type, initialData, finalData, uf, city, status} = request.body;
         const today = new Date();
         const todayString = today.toISOString();
         const todayYear = todayString.substring(0,4);
@@ -74,6 +99,8 @@ module.exports = {
             nomeProblema: type,
             areaProblema: area,
             initialData,
+            city,
+            uf,
             finalData,
             status,
         }
@@ -122,35 +149,52 @@ module.exports = {
 
     async searchPieChartArea(request,response) {
         const problemas = await Problems.find({}).sort({areaProblema: 1}); 
-
         var areaArray = [];
-        var finalArray = [];
         var qtdArray = [];
-        var area = areaArray[0];;
-        var qtdArea = 0;
-
         problemas.map(problem => {
             areaArray.push(problem.areaProblema);
         });
-
-        for(var i=0; i<areaArray.length; i++) {
-            if(area !== areaArray[i]){
-                var randomColor = '#' + Math.random().toString(16).slice(2, 8).toUpperCase();
-                    finalArray.push({
-                        name: area, 
-                        qtd: qtdArea,
-                        color: randomColor,
-                        legendFontColor: 'black',
-                        legendFontSize: 15
-                    });
-                    qtdArray.push(qtdArea); 
-                    area = areaArray[i];
-                    qtdArea = 0;
-            }
-            qtdArea += 1;
+        const counts = areaArray.reduce((acc, value) => ({
+            ...acc,
+            [value]: (acc[value] || 0) + 1
+         }), {});
+        
+         for (var column in counts) {
+            var randomColor = '#' + Math.random().toString(16).slice(2, 8).toUpperCase();
+                qtdArray.push({
+                    name: column, 
+                    qtd: counts[column],
+                    color: randomColor,
+                    legendFontColor: 'black',
+                    legendFontSize: 15
+                });  
         }
-        finalArray.shift();
-        return response.json(finalArray);
+        return response.json(qtdArray);
+    },
+
+    async searchPieChartStatus(request,response) {
+        const problemas = await Problems.find({}).sort({status: 1}); 
+        var typeStatus = [];
+        var qtdArray = [];
+        problemas.map(problem => {
+            typeStatus.push(problem.status);
+        });
+        const counts = typeStatus.reduce((acc, value) => ({
+            ...acc,
+            [value]: (acc[value] || 0) + 1
+         }), {});
+        
+         for (var column in counts) {
+            var randomColor = '#' + Math.random().toString(16).slice(2, 8).toUpperCase();
+                qtdArray.push({
+                    name: column, 
+                    qtd: counts[column],
+                    color: randomColor,
+                    legendFontColor: 'black',
+                    legendFontSize: 15
+                });  
+        }
+        return response.json(qtdArray);
     },
 
 

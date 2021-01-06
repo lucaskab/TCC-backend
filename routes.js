@@ -48,10 +48,13 @@ routes.get('/searchQTDProblemsByUser', SearchController.buscaQTDProblemasUsuario
 
 //Admin Routes
 routes.post('/admin', AdminController.store);
+routes.post('/updateAdmin', AdminController.update);
 routes.post('/sessions', AdminController.index);
 routes.post('/searchProblemsAdmin', AdminController.search);
 routes.post('/searchFilterChartAdmin', AdminController.searchFilterChart);
 routes.get('/searchPieChartData', AdminController.searchPieChartArea);
+routes.get('/searchPieChartStatus', AdminController.searchPieChartStatus);
+routes.get('/findAllUF', AdminController.searchUF);
 
 //Area Routes
 routes.post('/addArea', AreaController.store);

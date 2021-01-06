@@ -7,13 +7,13 @@ const Problem = require('../models/Problems');
 module.exports = {
 
     async store(request,response) {
-        const {email,nomeProblema, Descricao, urlFoto, areaProblema, latitude, longitude, sugestao} = request.body;
+        const {email,nomeProblema, Descricao, urlFoto, areaProblema, latitude, longitude, uf, city, sugestao} = request.body;
 
             const posicao = {
                 type : 'Point',
                 coordinates: [longitude, latitude]
             }
-           var problem = await Problem.create({email,nomeProblema, descricaoProblema: Descricao,sugestao, urlFoto, areaProblema, posicao, status: 'Avaliando', idPrestador: 'Em análise'}       )
+           var problem = await Problem.create({email,nomeProblema, descricaoProblema: Descricao,sugestao, urlFoto, areaProblema, posicao, status: 'Avaliando', idPrestador: 'Em análise', uf, city}       )
         return response.json(problem);
     },
 

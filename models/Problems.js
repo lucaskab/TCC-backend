@@ -14,6 +14,8 @@ const Problem = new mongoose.Schema({
         type:PointSchema,
         index: '2dsphere'
     },
+    uf: String,
+    city: String,
     CreatedAt: { 
         type: Date, 
         default: Date.now, 
